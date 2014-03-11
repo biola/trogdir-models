@@ -15,4 +15,6 @@ spec = Gem::Specification.new do |s|
   s.homepage = 'https://github.com/biola/trogdir-models'
   s.license = 'MIT'
   s.add_dependency('mongoid')
+  s.add_development_dependency('rspec')
+  s.add_development_dependency('shoulda-matchers')
 end
