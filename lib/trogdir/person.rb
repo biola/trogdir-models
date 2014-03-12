@@ -4,6 +4,7 @@ class Person
   include Employee
 
   embeds_many :ids, class_name: 'ID'
+  embeds_many :emails
 
   # Names
   field :first_name, type: String
@@ -26,4 +27,10 @@ class Person
   field :enabled, type: Boolean # TODO: figure out if tihs is necessary
 
   validates :first_name, :last_name, presence: true
+
+  def email
+    emails.where(primary: true).first
+  end
+
+  delegate :address, to: :email, prefix: true
 end

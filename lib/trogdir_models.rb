@@ -1,9 +1,16 @@
 module TrogdirModels
 end
 
+# Models
 require 'mongoid'
-require 'active_support/concern'
 autoload :Person, 'trogdir/person'
+autoload :ID, 'trogdir/id'
+autoload :Email, 'trogdir/email'
+
+# Concerns
+require 'active_support/concern'
 autoload :Student, 'trogdir/concerns/student'
 autoload :Employee, 'trogdir/concerns/employee'
-autoload :ID, 'trogdir/id'
+
+require 'active_model/validations'
+autoload :EmailValidator, 'trogdir/validators/email_validator'

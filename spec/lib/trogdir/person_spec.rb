@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Person do
+  let(:person) { create :person }
+
   # Person methods
   it { should respond_to :first_name }
   it { should respond_to :preferred_name }
@@ -30,4 +32,23 @@ describe Person do
 
   it { should validate_presence_of :first_name }
   it { should validate_presence_of :last_name }
+
+  describe '#email' do
+    let(:email) { person.email }
+
+    context 'when multiple_emails' do
+      let!(:email_a) { create :email, person: person, address: 'john@example.com', primary: false }
+      let!(:email_b) { create :email, person: person, address: 'johnny@example.com', primary: true }
+
+      it 'returns the primary' do
+        expect(email).to eq email_b
+      end
+    end
+
+    context 'when no emails' do
+      it 'returns nil' do
+        expect(email).to be_nil
+      end
+    end
+  end
 end
