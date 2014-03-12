@@ -6,6 +6,7 @@ describe Person do
   it { should embed_many :ids }
   it { should embed_many :emails }
   it { should embed_many :photos }
+  it { should embed_many :phones }
 
   # Person methods
   it { should respond_to :first_name }

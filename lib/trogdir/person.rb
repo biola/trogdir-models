@@ -6,6 +6,7 @@ class Person
   embeds_many :ids, class_name: 'ID'
   embeds_many :emails
   embeds_many :photos
+  embeds_many :phones
 
   # Names
   field :first_name, type: String
