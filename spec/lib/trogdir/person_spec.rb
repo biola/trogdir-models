@@ -21,6 +21,13 @@ describe Person do
   it { should respond_to :wing }
   it { should respond_to :majors }
 
+  # Employee concerns methods
+  it { should respond_to :department }
+  it { should respond_to :title }
+  it { should respond_to :employee_type }
+  it { should respond_to :full_time }
+  it { should respond_to :pay_type }
+
   it { should validate_presence_of :first_name }
   it { should validate_presence_of :last_name }
 end

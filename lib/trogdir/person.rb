@@ -1,6 +1,7 @@
 class Person
   include Mongoid::Document
   include Student
+  include Employee
 
   # Names
   field :first_name, type: String
