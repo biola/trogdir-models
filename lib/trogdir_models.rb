@@ -6,6 +6,7 @@ require 'mongoid'
 autoload :Person, 'trogdir/person'
 autoload :ID, 'trogdir/id'
 autoload :Email, 'trogdir/email'
+autoload :Photo, 'trogdir/photo'
 
 # Concerns
 require 'active_support/concern'
@@ -14,3 +15,4 @@ autoload :Employee, 'trogdir/concerns/employee'
 
 require 'active_model/validations'
 autoload :EmailValidator, 'trogdir/validators/email_validator'
+autoload :AbsoluteUriValidator, 'trogdir/validators/absolute_uri_validator'
