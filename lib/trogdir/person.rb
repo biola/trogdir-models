@@ -7,6 +7,7 @@ class Person
   embeds_many :emails
   embeds_many :photos
   embeds_many :phones
+  embeds_many :addresses
 
   # Names
   field :first_name, type: String

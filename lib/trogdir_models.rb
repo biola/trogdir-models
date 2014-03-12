@@ -8,6 +8,7 @@ autoload :ID, 'trogdir/id'
 autoload :Email, 'trogdir/email'
 autoload :Photo, 'trogdir/photo'
 autoload :Phone, 'trogdir/phone'
+autoload :Address, 'trogdir/address'
 
 # Concerns
 require 'active_support/concern'
