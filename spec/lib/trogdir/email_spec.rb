@@ -4,12 +4,14 @@ describe Email do
   let(:attrs) { {} }
   subject { build :email, attrs }
 
+  it { should be_embedded_in :person }
+
   it { should respond_to :type }
   it { should respond_to :address }
   it { should respond_to :primary? }
 
   it { should validate_presence_of :type }
-  it { should ensure_inclusion_of(:type).in_array Email::TYPES }
+  it { should validate_inclusion_of(:type).to_allow Email::TYPES }
   it { should validate_presence_of :address }
 
   describe 'email validation' do

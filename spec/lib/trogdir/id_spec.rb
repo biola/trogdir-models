@@ -4,11 +4,13 @@ describe ID do
   let(:attrs) { {} }
   subject { build :id, attrs }
 
+  it { should be_embedded_in :person }
+
   it { should respond_to :identifier }
   it { should respond_to :type }
 
   it { should validate_presence_of :type }
-  it { should ensure_inclusion_of(:type).in_array ID::TYPES }
+  it { should validate_inclusion_of(:type).to_allow ID::TYPES }
   it { should validate_presence_of :identifier }
 
   describe 'uniqueness validation' do

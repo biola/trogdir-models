@@ -19,5 +19,5 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency 'factory_girl', '~> 4.4'
   s.add_development_dependency 'faker', '~> 1.3.0'
   s.add_development_dependency 'rspec', '~> 2.14'
-  s.add_development_dependency 'shoulda-matchers', '~> 2.5'
+  s.add_development_dependency 'mongoid-rspec', '~> 1.11'
 end

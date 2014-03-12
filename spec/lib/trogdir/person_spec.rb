@@ -3,6 +3,10 @@ require 'spec_helper'
 describe Person do
   let(:person) { create :person }
 
+  it { should embed_many :ids }
+  it { should embed_many :emails }
+  it { should embed_many :photos }
+
   # Person methods
   it { should respond_to :first_name }
   it { should respond_to :preferred_name }
@@ -35,6 +39,7 @@ describe Person do
 
   describe '#email' do
     let(:email) { person.email }
+    let(:email_address) { person.email_address }
 
     context 'when multiple_emails' do
       let!(:email_a) { create :email, person: person, address: 'john@example.com', primary: false }
@@ -42,12 +47,14 @@ describe Person do
 
       it 'returns the primary' do
         expect(email).to eq email_b
+        expect(email_address).to eq email_b.address
       end
     end
 
     context 'when no emails' do
       it 'returns nil' do
         expect(email).to be_nil
+        expect(email_address).to be_nil
       end
     end
   end

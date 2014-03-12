@@ -4,13 +4,15 @@ describe Photo do
   let(:attrs) { {} }
   subject { build :photo, attrs }
 
+  it { should be_embedded_in :person }
+
   it { should respond_to :type }
   it { should respond_to :url }
   it { should respond_to :height }
   it { should respond_to :width }
 
   it { should validate_presence_of :type }
-  it { should ensure_inclusion_of(:type).in_array Photo::TYPES }
+  it { should validate_inclusion_of(:type).to_allow Photo::TYPES }
   it { should validate_presence_of :url }
   it { should validate_presence_of :height }
   it { should validate_presence_of :width }

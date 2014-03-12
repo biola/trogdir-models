@@ -33,5 +33,5 @@ class Person
     emails.where(primary: true).first
   end
 
-  delegate :address, to: :email, prefix: true
+  delegate :address, to: :email, prefix: true, allow_nil: true
 end

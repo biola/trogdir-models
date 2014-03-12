@@ -6,7 +6,7 @@ ENV['RACK_ENV'] = 'test'
 require 'bundler/setup'
 require 'rspec'
 require 'trogdir_models'
-require 'shoulda-matchers'
+require 'mongoid-rspec'
 require 'factory_girl'
 require 'faker'
 
@@ -17,6 +17,7 @@ FactoryGirl.find_definitions
 
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
+  config.include Mongoid::Matchers
 
   # Clean/Reset Mongoid DB prior to running each test.
   config.before(:each) do
