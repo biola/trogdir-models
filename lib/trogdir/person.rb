@@ -3,6 +3,8 @@ class Person
   include Student
   include Employee
 
+  embeds_many :ids, class_name: 'ID'
+
   # Names
   field :first_name, type: String
   field :preferred_name, type: String

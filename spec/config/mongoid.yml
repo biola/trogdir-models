@@ -1,0 +1,6 @@
+test:
+  sessions:
+    default:
+      database: trogdir_models_test
+      hosts:
+        - localhost:27017
