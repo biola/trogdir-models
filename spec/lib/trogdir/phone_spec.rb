@@ -3,9 +3,9 @@ require 'spec_helper'
 describe Phone do
   it { should be_embedded_in :person }
 
-  it { should respond_to :type }
-  it { should respond_to :number }
-  it { should respond_to :primary }
+  it { should have_field(:type).of_type Symbol }
+  it { should have_field(:number).of_type String }
+  it { should have_field(:primary).of_type Boolean }
 
   it { should validate_presence_of :type }
   it { should validate_presence_of :number }

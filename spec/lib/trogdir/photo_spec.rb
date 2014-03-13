@@ -6,10 +6,10 @@ describe Photo do
 
   it { should be_embedded_in :person }
 
-  it { should respond_to :type }
-  it { should respond_to :url }
-  it { should respond_to :height }
-  it { should respond_to :width }
+  it { should have_fields(:type).of_type Symbol }
+  it { should have_fields(:url).of_type String }
+  it { should have_fields(:height).of_type Integer }
+  it { should have_fields(:width).of_type Integer }
 
   it { should validate_presence_of :type }
   it { should validate_inclusion_of(:type).to_allow Photo::TYPES }

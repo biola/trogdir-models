@@ -6,8 +6,8 @@ describe ID do
 
   it { should be_embedded_in :person }
 
-  it { should respond_to :identifier }
-  it { should respond_to :type }
+  it { should have_field(:type).of_type Symbol }
+  it { should have_field :identifier }
 
   it { should validate_presence_of :type }
   it { should validate_inclusion_of(:type).to_allow ID::TYPES }
