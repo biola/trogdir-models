@@ -1,5 +1,6 @@
 class Address
   include Mongoid::Document
+  include Mongoid::History::Trackable
 
   TYPES = [:home]
 
@@ -15,4 +16,6 @@ class Address
 
   validates :type, presence: true, inclusion: { in: Address::TYPES }
   validates :street_1, presence: true
+
+  track_history track_create: true, track_destroy: true
 end

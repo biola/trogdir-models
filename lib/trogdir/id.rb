@@ -1,5 +1,6 @@
 class ID
   include Mongoid::Document
+  include Mongoid::History::Trackable
 
   TYPES = [:biola_id, :netid, :banner, :google_apps]
 
@@ -14,6 +15,8 @@ class ID
       id.errors.add :identifier, 'must be unique'
     end
   end
+
+  track_history track_create: true, track_destroy: true
 
   def to_s
     identifier

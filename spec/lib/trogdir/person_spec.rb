@@ -8,6 +8,7 @@ describe Person do
   it { should embed_many :photos }
   it { should embed_many :phones }
   it { should embed_many :addresses }
+  it { should have_many :changesets }
 
   # Person methods
   it { should have_field(:first_name).of_type String }

@@ -1,5 +1,6 @@
 class Photo
   include Mongoid::Document
+  include Mongoid::History::Trackable
 
   TYPES = [:id_card]
 
@@ -13,4 +14,6 @@ class Photo
   validates :type, presence: true, inclusion: { in: Photo::TYPES }
   validates :url, :height, :width, presence: true
   validates :url, absolute_uri: true
+
+  track_history track_create: true, track_destroy: true
 end

@@ -9,6 +9,7 @@ require 'trogdir_models'
 require 'mongoid-rspec'
 require 'factory_girl'
 require 'faker'
+require 'pry'
 
 Mongoid.load!('spec/config/mongoid.yml')
 

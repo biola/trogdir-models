@@ -1,5 +1,6 @@
 class Person
   include Mongoid::Document
+  include Mongoid::History::Trackable
   include Student
   include Employee
 
@@ -8,6 +9,7 @@ class Person
   embeds_many :photos
   embeds_many :phones
   embeds_many :addresses
+  has_many :changesets, as: :changeable
 
   # Names
   field :first_name, type: String
@@ -30,6 +32,8 @@ class Person
   field :enabled, type: Boolean # TODO: figure out if tihs is necessary
 
   validates :first_name, :last_name, presence: true
+
+  track_history track_create: true
 
   def email
     emails.where(primary: true).first

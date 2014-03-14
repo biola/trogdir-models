@@ -1,5 +1,6 @@
 class Phone
   include Mongoid::Document
+  include Mongoid::History::Trackable
 
   TYPES = [:office, :home, :cell]
 
@@ -11,4 +12,6 @@ class Phone
 
   validates :type, presence: true, inclusion: { in: Phone::TYPES }
   validates :number, presence: true
+
+  track_history track_create: true, track_destroy: true
 end
