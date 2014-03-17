@@ -10,6 +10,7 @@ autoload :Photo, 'trogdir/photo'
 autoload :Phone, 'trogdir/phone'
 autoload :Address, 'trogdir/address'
 autoload :Changeset, 'trogdir/changeset'
+autoload :Syncinator, 'trogdir/syncinator'
 
 # Concerns
 require 'active_support/concern'
