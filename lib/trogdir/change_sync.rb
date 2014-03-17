@@ -3,4 +3,5 @@ class ChangeSync
 
   belongs_to :changeset
   belongs_to :syncinator
+  embeds_many :sync_logs
 end

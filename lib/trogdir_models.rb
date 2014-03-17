@@ -12,6 +12,7 @@ autoload :Address, 'trogdir/address'
 autoload :Changeset, 'trogdir/changeset'
 autoload :Syncinator, 'trogdir/syncinator'
 autoload :ChangeSync, 'trogdir/change_sync'
+autoload :SyncLog, 'trogdir/sync_log'
 
 # Concerns
 require 'active_support/concern'
