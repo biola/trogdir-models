@@ -4,6 +4,8 @@ describe Syncinator do
   let(:attrs) { {} }
   let(:syncinator) { build :syncinator, attrs }
 
+  it { should have_many(:change_syncs) }
+
   it { should have_field(:name).of_type String }
   it { should have_field(:slug).of_type String }
   it { should have_field(:access_id).of_type Integer }

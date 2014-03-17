@@ -5,6 +5,8 @@ class Syncinator
 
   FIXNUM_MAX = (2**(0.size * 8 -2) -1)
 
+  has_many :change_syncs
+
   field :name, type: String
   field :slug, type: String
   field :access_id, type: Integer

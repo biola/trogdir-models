@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Changeset do
   let!(:person) { create :person }
 
+  it { should have_many :change_syncs }
+
   it 'is created when a person is created' do
     expect { create :person }.to change { Changeset.count }.by 1
   end
