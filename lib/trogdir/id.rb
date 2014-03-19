@@ -3,6 +3,7 @@ class ID
   include Mongoid::History::Trackable
 
   TYPES = [:biola_id, :netid, :banner, :google_apps]
+  DEFAULT_TYPE = :netid
 
   embedded_in :person
   field :type, type: Symbol
