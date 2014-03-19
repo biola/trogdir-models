@@ -1,4 +1,8 @@
 module TrogdirModels
+  # For sharing factories with apps that use the gem
+  def self.load_factories
+    FactoryGirl.definition_file_paths += [File.expand_path('../../spec/factories',  __FILE__)]
+  end
 end
 
 # Models

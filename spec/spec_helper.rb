@@ -13,7 +13,7 @@ require 'pry'
 
 Mongoid.load!('spec/config/mongoid.yml')
 
-FactoryGirl.definition_file_paths = ['./spec/factories']
+TrogdirModels.load_factories
 FactoryGirl.find_definitions
 
 RSpec.configure do |config|
