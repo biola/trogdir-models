@@ -54,9 +54,9 @@ describe Syncinator do
       expect { syncinator.save! }.to change { syncinator.secret_key }.from(nil).to String
     end
 
-    it 'is a 128 character long hex string' do
+    it 'is a Base64 encoded, randomized string' do
       syncinator.save!
-      expect(syncinator.secret_key).to match /[0-9a-f]{127}/
+      expect(syncinator.secret_key).to match /[0-9a-zA-Z+\/]{86}==/
     end
   end
 end

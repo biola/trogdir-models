@@ -1,4 +1,4 @@
-require 'securerandom'
+require 'api_auth'
 
 class Syncinator
   include Mongoid::Document
@@ -36,6 +36,6 @@ class Syncinator
   end
 
   def set_secret_key
-    self.secret_key = SecureRandom.hex(64)
+    self.secret_key = ApiAuth.generate_secret_key
   end
 end
