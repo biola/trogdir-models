@@ -4,6 +4,8 @@ class Person
   include Student
   include Employee
 
+  GENDERS = [:male, :female]
+
   embeds_many :ids, class_name: 'ID'
   embeds_many :emails
   embeds_many :photos
@@ -32,6 +34,7 @@ class Person
   field :enabled, type: Boolean # TODO: figure out if tihs is necessary
 
   validates :first_name, :last_name, presence: true
+  validates :gender, inclusion: { in: Person::GENDERS, allow_nil: true }
 
   track_history track_create: true
 

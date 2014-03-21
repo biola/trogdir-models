@@ -39,6 +39,7 @@ describe Person do
 
   it { should validate_presence_of :first_name }
   it { should validate_presence_of :last_name }
+  it { should validate_inclusion_of(:gender).to_allow Person::GENDERS }
 
   describe '#email' do
     let(:email) { person.email }
