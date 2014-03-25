@@ -8,7 +8,7 @@ class Email
 
   field :type, type: Symbol
   field :address, type: String
-  field :primary, type: Boolean
+  field :primary, type: Boolean, default: false
 
   validates :type, presence: true, inclusion: { in: Email::TYPES }
   validates :address, presence: true, email: true

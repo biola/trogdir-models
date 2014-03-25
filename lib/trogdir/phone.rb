@@ -8,7 +8,7 @@ class Phone
 
   field :type, type: Symbol
   field :number, type: String
-  field :primary, type: Boolean
+  field :primary, type: Boolean, default: false
 
   validates :type, presence: true, inclusion: { in: Phone::TYPES }
   validates :number, presence: true
