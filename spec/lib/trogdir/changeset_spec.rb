@@ -29,6 +29,27 @@ describe Changeset do
     end
   end
 
+  describe '#change_syncs' do
+    context 'with no active syncinators' do
+      before { create :syncinator, active: false }
+
+      it "doesn't create any change_syncs" do
+        expect(person.history_tracks.last.change_syncs).to be_empty
+      end
+    end
+
+    context 'with one active syncinator' do
+      let!(:syncinator) { create :syncinator }
+      let!(:new_person) { create :person }
+      before { create :syncinator, active: false }
+
+      it "creates one change_syncs" do
+        expect(new_person.history_tracks.last.change_syncs.count).to eql 1
+        expect(new_person.history_tracks.last.change_syncs.last.syncinator).to eql syncinator
+      end
+    end
+  end
+
   describe '#person' do
 
     context 'when trackable is a Person' do

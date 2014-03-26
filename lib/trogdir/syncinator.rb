@@ -12,7 +12,7 @@ class Syncinator
   field :access_id, type: Integer
   field :secret_key, type: String
   field :queue_changes, type: Boolean
-  field :active, type: Boolean
+  field :active, type: Boolean, default: true
 
   attr_readonly :slug, :access_id, :secret_key
 
