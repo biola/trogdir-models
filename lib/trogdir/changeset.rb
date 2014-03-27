@@ -1,7 +1,7 @@
 class Changeset
   include Mongoid::History::Tracker
 
-  has_many :change_syncs
+  embeds_many :change_syncs
 
   after_create :create_change_syncs
 

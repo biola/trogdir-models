@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe SyncLog do
-  it { should belong_to :change_sync }
+  it { should be_embedded_in :change_sync }
 
   it { should have_field(:started_at).of_type Time }
   it { should have_field(:errored_at).of_type Time }

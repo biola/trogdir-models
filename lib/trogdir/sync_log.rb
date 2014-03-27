@@ -1,7 +1,7 @@
 class SyncLog
   include Mongoid::Document
 
-  belongs_to :change_sync
+  embedded_in :change_sync
 
   field :started_at, type: Time
   field :errored_at, type: Time
