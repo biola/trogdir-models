@@ -23,7 +23,38 @@ class Syncinator
     name
   end
 
+  def startable_changesets(retry_after = nil)
+    retry_after ||= 1.hour.ago
+
+    Changeset.where(
+      :'change_syncs.syncinator_id' => id
+    ).or(
+      {:'change_syncs.sync_logs'.with_size => nil},
+      {:'change_syncs.sync_logs'.elem_match => {:started_at.lt => retry_after, succeeded_at: nil}}
+    )
+  end
+
+  def start!(changeset)
+    return false unless change_sync = change_sync_for(changeset)
+
+    change_sync.sync_logs.create! started_at: Time.now
+  end
+
+  def error!(sync_log, message)
+    sync_log.update_attributes errored_at: Time.now, message: message
+    sync_log
+  end
+
+  def finish!(sync_log, action, message = nil)
+    sync_log.update_attributes succeeded_at: Time.now, action: action, message: message
+    sync_log
+  end
+
   private
+
+  def change_sync_for(changeset)
+    changeset.change_syncs.find_by(syncinator: self)
+  end
 
   def set_default_slug
     self.slug ||= name.parameterize

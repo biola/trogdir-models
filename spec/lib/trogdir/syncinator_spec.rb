@@ -57,4 +57,93 @@ describe Syncinator do
       expect(syncinator.secret_key).to match /[0-9a-zA-Z+\/]{86}==/
     end
   end
+
+  describe '#startable_changesets' do
+    let(:retry_after) { 1.hour.ago }
+    subject { syncinator.startable_changesets(retry_after) }
+
+    context 'without an assigned change_sync' do
+      it { should be_empty }
+    end
+
+    context 'with an assigned change_sync' do
+      let!(:syncinator) { create :syncinator }
+      let!(:changeset) { create(:person).history_tracks.last }
+
+      context 'with an unstarted change_sync' do
+        its(:first) { should be_a Changeset }
+      end
+
+      context 'with a succeeded change_sync' do
+        before { changeset.change_syncs.last.sync_logs.create! started_at: 2.minute.ago, succeeded_at: 1.minute.ago }
+        it { should be_empty }
+      end
+
+      context 'with a succeeded change_sync' do
+        before { changeset.change_syncs.last.sync_logs.create! started_at: 2.minute.ago, succeeded_at: 1.minute.ago }
+        it { should be_empty }
+      end
+
+      context 'with a recently errored change_sync' do
+        before { changeset.change_syncs.last.sync_logs.create! started_at: 2.minute.ago, errored_at: 1.minute.ago }
+        it { should be_empty }
+      end
+
+      context 'with a long ago errored_change_sync' do
+        before { changeset.change_syncs.last.sync_logs.create! started_at: 65.minutes.ago, errored_at: 64.minutes.ago }
+        its(:first) { should be_a Changeset }
+      end
+    end
+  end
+
+  describe '#start!' do
+    let!(:syncinator) { create :syncinator }
+    let!(:changeset) { create(:person).history_tracks.last }
+
+    it 'adds a new sync_log with a starts_at' do
+      expect { syncinator.start!(changeset) }.to change { changeset.change_syncs.first.sync_logs.count }.from(0).to 1
+    end
+
+    it 'returns a sync_log' do
+      expect(syncinator.start!(changeset)).to be_a SyncLog
+    end
+  end
+
+  describe '#error!' do
+    let!(:syncinator) { create :syncinator }
+    let!(:changeset) { create(:person).history_tracks.last }
+    let(:sync_log) { syncinator.start!(changeset) }
+    let(:message) { 'OH NOES!'}
+    subject { syncinator.error!(sync_log, message) }
+
+    it 'updates the sync_log' do
+      expect(subject.errored_at).to be_a Time
+      expect(subject.succeeded_at).to be_nil
+      expect(subject.message).to eql message
+    end
+
+    it 'returns a sync_log' do
+      expect(subject).to be_a SyncLog
+    end
+  end
+
+  describe '#finish!' do
+    let!(:syncinator) { create :syncinator }
+    let!(:changeset) { create(:person).history_tracks.last }
+    let(:sync_log) { syncinator.start!(changeset) }
+    let(:action) { :created }
+    let(:message) { 'Finally!'}
+    subject { syncinator.finish!(sync_log, action, message) }
+
+    it 'updates the sync_log' do
+      expect(subject.errored_at).to be_nil
+      expect(subject.succeeded_at).to be_a Time
+      expect(subject.action).to eql action
+      expect(subject.message).to eql message
+    end
+
+    it 'returns a sync_log' do
+      expect(subject).to be_a SyncLog
+    end
+  end
 end
