@@ -12,4 +12,11 @@ class SyncLog
   validates :started_at, presence: true
 
   delegate :changeset, to: :change_sync
+
+  def self.find_through_parents(id)
+    id = Moped::BSON::ObjectId(id)
+    changeset = Changeset.find_by('change_syncs.sync_logs._id' => id)
+    change_sync = changeset.change_syncs.find_by('sync_logs._id' => id)
+    change_sync.sync_logs.find(id)
+  end
 end

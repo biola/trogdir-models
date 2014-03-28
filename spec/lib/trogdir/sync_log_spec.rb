@@ -12,4 +12,12 @@ describe SyncLog do
   it { should validate_presence_of :started_at }
 
   it { should respond_to :changeset }
+
+  describe '.find_through_parents' do
+    let!(:sync_log) { create :sync_log }
+
+    it "returns a sync log by it's ID" do
+      expect(SyncLog.find_through_parents(sync_log.id.to_s)).to eql sync_log
+    end
+  end
 end
