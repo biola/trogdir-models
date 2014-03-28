@@ -31,10 +31,20 @@ describe Changeset do
 
   describe '#change_syncs' do
     context 'with no active syncinators' do
-      before { create :syncinator, active: false }
+      let!(:syncinator) { create :syncinator, active: false }
+      let!(:new_person) { create :person }
 
       it "doesn't create any change_syncs" do
-        expect(person.history_tracks.last.change_syncs).to be_empty
+        expect(new_person.history_tracks.last.change_syncs).to be_empty
+      end
+    end
+
+    context 'with no queue_changes=true syncinators' do
+      let!(:syncinator) { create :syncinator, queue_changes: false }
+      let!(:new_person) { create :person }
+
+      it "doesn't create any change_syncs" do
+        expect(new_person.history_tracks.last.change_syncs).to be_empty
       end
     end
 

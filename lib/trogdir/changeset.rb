@@ -10,7 +10,7 @@ class Changeset
   private
 
   def create_change_syncs
-    Syncinator.where(active: true).each do |syncinator|
+    Syncinator.where(active: true, queue_changes: true).each do |syncinator|
       change_syncs.create syncinator: syncinator
     end
   end
