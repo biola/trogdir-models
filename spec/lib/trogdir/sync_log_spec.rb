@@ -10,4 +10,6 @@ describe SyncLog do
   it { should have_field(:message).of_type String }
 
   it { should validate_presence_of :started_at }
+
+  it { should respond_to :changeset }
 end

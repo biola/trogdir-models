@@ -10,4 +10,6 @@ class SyncLog
   field :message, type: String
 
   validates :started_at, presence: true
+
+  delegate :changeset, to: :change_sync
 end
