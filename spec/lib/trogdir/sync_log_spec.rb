@@ -12,6 +12,7 @@ describe SyncLog do
   it { should validate_presence_of :started_at }
 
   it { should respond_to :changeset }
+  it { should respond_to :syncinator }
 
   describe '.find_through_parents' do
     let!(:sync_log) { create :sync_log }

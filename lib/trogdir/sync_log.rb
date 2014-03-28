@@ -11,7 +11,7 @@ class SyncLog
 
   validates :started_at, presence: true
 
-  delegate :changeset, to: :change_sync
+  delegate :changeset, :syncinator, to: :change_sync
 
   def self.find_through_parents(id)
     id = Moped::BSON::ObjectId(id)
