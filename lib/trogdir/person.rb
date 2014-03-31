@@ -30,7 +30,6 @@ class Person
   field :affiliations, type: Array
 
   # Options
-  field :privacy, type: Boolean
   field :enabled, type: Boolean # TODO: figure out if tihs is necessary
 
   validates :first_name, :last_name, presence: true

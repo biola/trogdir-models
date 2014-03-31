@@ -9,5 +9,8 @@ module Student
 
     # Academic
     field :majors, type: Array
+
+    # FERPA
+    field :privacy, type: Boolean
   end
 end

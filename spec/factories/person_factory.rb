@@ -9,7 +9,6 @@ FactoryGirl.define do
     birth_date { 20.years.ago }
     entitlements []
     affiliations []
-    privacy false
     enabled true
 
     trait :student do
@@ -17,6 +16,7 @@ FactoryGirl.define do
       floor 1
       wing 'West'
       majors ['Mousepad Engineer']
+      privacy false
     end
 
     trait :employee do

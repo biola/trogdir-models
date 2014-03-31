@@ -21,7 +21,6 @@ describe Person do
   it { should have_field(:birth_date).of_type Date }
   it { should have_field(:entitlements).of_type Array }
   it { should have_field(:affiliations).of_type Array }
-  it { should have_field(:privacy).of_type Boolean }
   it { should have_field(:enabled).of_type Boolean }
 
   # Student concern methods
@@ -29,6 +28,7 @@ describe Person do
   it { should have_field(:floor).of_type Integer }
   it { should have_field(:wing).of_type String }
   it { should have_field(:majors).of_type Array }
+  it { should have_field(:privacy).of_type Boolean }
 
   # Employee concerns methods
   it { should have_field(:department).of_type String }
