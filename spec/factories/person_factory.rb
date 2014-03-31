@@ -11,5 +11,20 @@ FactoryGirl.define do
     affiliations []
     privacy false
     enabled true
+
+    trait :student do
+      residence 'The Stick'
+      floor 1
+      wing 'West'
+      majors ['Mousepad Engineer']
+    end
+
+    trait :employee do
+      department 'Cracking Wise'
+      title 'Guy With a Big Knife'
+      employee_type :'Full-Time'
+      full_time true
+      pay_type :'02'
+    end
   end
 end
