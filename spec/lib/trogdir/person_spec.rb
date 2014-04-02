@@ -11,6 +11,7 @@ describe Person do
   it { should have_many :changesets }
 
   # Person methods
+  it { should have_field(:uuid).of_type String }
   it { should have_field(:first_name).of_type String }
   it { should have_field(:preferred_name).of_type String }
   it { should have_field(:middle_name).of_type String }
@@ -37,9 +38,17 @@ describe Person do
   it { should have_field(:full_time).of_type Boolean }
   it { should have_field(:pay_type).of_type Symbol }
 
+  it { should validate_presence_of :uuid }
   it { should validate_presence_of :first_name }
   it { should validate_presence_of :last_name }
+  it { should validate_uniqueness_of :uuid }
   it { should validate_inclusion_of(:gender).to_allow Person::GENDERS }
+
+  describe '#uuid' do
+    subject { build :person }
+    before { subject.valid? } # trigger generation of uuid
+    its(:uuid) { should match /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\Z/ }
+  end
 
   describe '#email' do
     let(:email) { person.email }

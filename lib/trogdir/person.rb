@@ -1,3 +1,5 @@
+require 'securerandom'
+
 class Person
   include Mongoid::Document
   include Mongoid::History::Trackable
@@ -12,6 +14,9 @@ class Person
   embeds_many :phones
   embeds_many :addresses
   has_many :changesets, as: :changeable
+
+  # ID
+  field :uuid, type: String
 
   # Names
   field :first_name, type: String
@@ -32,14 +37,23 @@ class Person
   # Options
   field :enabled, type: Boolean # TODO: figure out if tihs is necessary
 
-  validates :first_name, :last_name, presence: true
+  validates :uuid, :first_name, :last_name, presence: true
+  validates :uuid, uniqueness: true
   validates :gender, inclusion: { in: Person::GENDERS, allow_nil: true }
 
   track_history track_create: true
+
+  before_validation :set_uuid, on: :create
 
   def email
     emails.where(primary: true).first
   end
 
   delegate :address, to: :email, prefix: true, allow_nil: true
+
+  private
+
+  def set_uuid
+    self.uuid = SecureRandom.uuid
+  end
 end
