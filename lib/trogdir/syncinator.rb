@@ -61,10 +61,10 @@ class Syncinator
   end
 
   def set_access_id
-    self.access_id = rand(FIXNUM_MAX)
+    self.access_id ||= rand(FIXNUM_MAX)
   end
 
   def set_secret_key
-    self.secret_key = ApiAuth.generate_secret_key
+    self.secret_key ||= ApiAuth.generate_secret_key
   end
 end
