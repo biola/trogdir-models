@@ -30,7 +30,7 @@ describe ID do
   describe '#identifier' do
     context 'when an integer' do
       let(:attrs) { {identifier: 42} }
-      its(:identifier) { should be_kind_of Integer }
+      its(:identifier) { should be_kind_of String }
     end
 
     context 'when a string' do

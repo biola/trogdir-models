@@ -7,7 +7,7 @@ class ID
 
   embedded_in :person
   field :type, type: Symbol
-  field :identifier
+  field :identifier, type: String
 
   validates :type, presence: true, inclusion: { in: ID::TYPES }
   validates :identifier, presence: true
