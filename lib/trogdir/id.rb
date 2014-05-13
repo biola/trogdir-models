@@ -12,7 +12,7 @@ class ID
   validates :type, presence: true, inclusion: { in: ID::TYPES }
   validates :identifier, presence: true
   validate do |id|
-    if Person.where(:id.ne => id.person.try(:id), 'ids.identifier' => id.identifier, 'ids.type' => id.type).count > 0
+    if Person.where(:id.ne => id.person.try(:id), :ids.elem_match => {identifier: id.identifier, type: id.type}).count > 0
       id.errors.add :identifier, 'must be unique'
     end
   end
