@@ -31,7 +31,7 @@ class Syncinator
     ).or(
       {:'change_syncs.sync_logs'.with_size => nil},
       {:'change_syncs.sync_logs'.elem_match => {:started_at.lt => retry_after, succeeded_at: nil}}
-    )
+    ).order_by(created_at: :asc)
   end
 
   def start!(changeset)
