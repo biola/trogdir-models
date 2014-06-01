@@ -26,11 +26,11 @@ class Syncinator
   def startable_changesets(retry_after = nil)
     retry_after ||= 1.hour.ago
 
-    Changeset.where(
-      :'change_syncs.syncinator_id' => id
+    Changeset.nor(
+      :change_syncs.elem_match => {syncinator_id: id, :'sync_logs.succeeded_at'.ne => nil}
     ).or(
-      {:'change_syncs.sync_logs'.with_size => nil},
-      {:'change_syncs.sync_logs'.elem_match => {:started_at.lt => retry_after, succeeded_at: nil}}
+      {:change_syncs.elem_match => {syncinator_id: id, :sync_logs.with_size => nil}},
+      {:change_syncs.elem_match => {syncinator_id: id, :sync_logs.elem_match => {:started_at.lt => retry_after, succeeded_at: nil}}}
     ).order_by(created_at: :asc)
   end
 

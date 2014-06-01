@@ -66,6 +66,24 @@ describe Syncinator do
       it { should be_empty }
     end
 
+    context 'with two change_syncs for two syncinators' do
+      let!(:syncinator) { create :syncinator }
+      let!(:other_syncinator) { create :syncinator }
+      let(:changeset) { create(:person).history_tracks.last }
+      let(:change_sync) { changeset.change_syncs.to_a.find{|cs| cs.syncinator == syncinator} }
+      let(:other_change_sync) { changeset.change_syncs.to_a.find{|cs| cs.syncinator == other_syncinator} }
+
+      context 'with the subjects change_sync succeeded' do
+        before { change_sync.sync_logs.create! started_at: 2.minute.ago, succeeded_at: 1.minute.ago }
+        it { should be_empty }
+      end
+
+      context "with the other's change_sync succeeded" do
+        before { other_change_sync.sync_logs.create! started_at: 2.minute.ago, succeeded_at: 1.minute.ago }
+        it { should_not be_empty }
+      end
+    end
+
     context 'with an assigned change_sync' do
       let!(:syncinator) { create :syncinator }
       let!(:changeset) { create(:person).history_tracks.last }
@@ -89,9 +107,17 @@ describe Syncinator do
         it { should be_empty }
       end
 
-      context 'with a long ago errored_change_sync' do
+      context 'with a long ago errored change_sync' do
         before { changeset.change_syncs.last.sync_logs.create! started_at: 65.minutes.ago, errored_at: 64.minutes.ago }
         its(:first) { should be_a Changeset }
+      end
+
+      context 'with a long ago errored and succeeded change_sync' do
+        before do
+          changeset.change_syncs.last.sync_logs.create! started_at: 65.minutes.ago, errored_at: 64.minutes.ago
+          changeset.change_syncs.last.sync_logs.create! started_at: 2.minute.ago, succeeded_at: 1.minute.ago
+        end
+        it { should be_empty }
       end
     end
   end
