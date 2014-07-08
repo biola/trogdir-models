@@ -24,7 +24,7 @@ autoload :Student, 'trogdir/concerns/student'
 autoload :Employee, 'trogdir/concerns/employee'
 
 require 'active_model/validations'
-autoload :EmailValidator, 'trogdir/validators/email_validator'
+require 'email_validator'
 autoload :AbsoluteUriValidator, 'trogdir/validators/absolute_uri_validator'
 
 require 'mongoid-history'
