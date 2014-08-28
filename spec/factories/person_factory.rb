@@ -9,6 +9,7 @@ FactoryGirl.define do
     birth_date { 20.years.ago }
     entitlements []
     affiliations []
+    groups []
     enabled true
 
     trait :student do

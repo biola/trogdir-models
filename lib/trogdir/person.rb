@@ -33,6 +33,7 @@ class Person
   # Groups and permissions
   field :entitlements, type: Array
   field :affiliations, type: Array
+  field :groups, type: Array
 
   # Options
   field :enabled, type: Boolean # TODO: figure out if tihs is necessary
