@@ -8,7 +8,6 @@ describe Person do
   it { should embed_many :photos }
   it { should embed_many :phones }
   it { should embed_many :addresses }
-  it { should have_many :changesets }
 
   # Person methods
   it { should have_field(:uuid).of_type String }
@@ -23,20 +22,20 @@ describe Person do
   it { should have_field(:entitlements).of_type Array }
   it { should have_field(:affiliations).of_type Array }
   it { should have_field(:groups).of_type Array }
-  it { should have_field(:enabled).of_type Boolean }
+  it { should have_field(:enabled).of_type Mongoid::Boolean }
 
   # Student concern methods
   it { should have_field(:residence).of_type String }
   it { should have_field(:floor).of_type Integer }
   it { should have_field(:wing).of_type String }
   it { should have_field(:majors).of_type Array }
-  it { should have_field(:privacy).of_type Boolean }
+  it { should have_field(:privacy).of_type Mongoid::Boolean }
 
   # Employee concerns methods
   it { should have_field(:department).of_type String }
   it { should have_field(:title).of_type String }
   it { should have_field(:employee_type).of_type Symbol }
-  it { should have_field(:full_time).of_type Boolean }
+  it { should have_field(:full_time).of_type Mongoid::Boolean }
   it { should have_field(:pay_type).of_type Symbol }
 
   it { should validate_presence_of :uuid }
@@ -45,10 +44,12 @@ describe Person do
   it { should validate_uniqueness_of :uuid }
   it { should validate_inclusion_of(:gender).to_allow Person::GENDERS }
 
+  it { should respond_to :changesets }
+
   describe '#uuid' do
-    subject { build :person }
-    before { subject.valid? } # trigger generation of uuid
-    its(:uuid) { should match /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\Z/ }
+    let(:person) { build :person }
+    before { person.valid? } # trigger generation of uuid
+    it { expect(person.uuid).to match /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\Z/ }
   end
 
   describe '#email' do

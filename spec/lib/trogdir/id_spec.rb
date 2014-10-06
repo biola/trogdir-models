@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe ID do
   let(:attrs) { {} }
-  subject { build :id, attrs }
+  let(:id){ build :id, attrs }
+  subject { id }
 
   it { should be_embedded_in :person }
 
@@ -30,17 +31,17 @@ describe ID do
   describe '#identifier' do
     context 'when an integer' do
       let(:attrs) { {identifier: 42} }
-      its(:identifier) { should be_kind_of String }
+      it { expect(id.identifier).to be_kind_of String }
     end
 
     context 'when a string' do
       let(:attrs) { {identifier: 'deepthought'} }
-      its(:identifier) { should be_kind_of String }
+      it { expect(id.identifier).to be_kind_of String }
     end
   end
 
   describe '#to_s' do
     let(:attrs) { {identifier: 'imastring'} }
-    its(:to_s) { should eql 'imastring' }
+    it { expect(id.to_s).to eql 'imastring' }
   end
 end

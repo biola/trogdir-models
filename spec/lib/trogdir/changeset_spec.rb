@@ -63,8 +63,7 @@ describe Changeset do
   describe '#person' do
 
     context 'when trackable is a Person' do
-      subject { person.history_tracks.first }
-      its(:person) { should eql person }
+      it { expect(person.history_tracks.first.person).to eql person }
     end
   end
 end
