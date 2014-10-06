@@ -13,7 +13,6 @@ class Person
   embeds_many :photos
   embeds_many :phones
   embeds_many :addresses
-  has_many :changesets, as: :changeable
 
   # ID
   field :uuid, type: String
@@ -45,6 +44,8 @@ class Person
   track_history track_create: true
 
   before_validation :set_uuid, on: :create
+
+  alias :changesets :history_tracks
 
   def email
     emails.where(primary: true).first
