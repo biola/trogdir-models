@@ -8,8 +8,8 @@ describe Syncinator do
   it { should have_field(:slug).of_type String }
   it { should have_field(:access_id).of_type Integer }
   it { should have_field(:secret_key).of_type String }
-  it { should have_field(:queue_changes).of_type Boolean }
-  it { should have_field(:active).of_type Boolean }
+  it { should have_field(:queue_changes).of_type Mongoid::Boolean }
+  it { should have_field(:active).of_type Mongoid::Boolean }
 
   [:slug, :access_id, :secret_key].each do |attr|
     it 'raises an error when changing a read-only attribute' do
@@ -89,7 +89,7 @@ describe Syncinator do
       let!(:changeset) { create(:person).history_tracks.last }
 
       context 'with an unstarted change_sync' do
-        its(:first) { should be_a Changeset }
+        it { expect(subject.first).to be_a Changeset }
       end
 
       context 'with a succeeded change_sync' do
@@ -109,7 +109,7 @@ describe Syncinator do
 
       context 'with a long ago errored change_sync' do
         before { changeset.change_syncs.last.sync_logs.create! started_at: 65.minutes.ago, errored_at: 64.minutes.ago }
-        its(:first) { should be_a Changeset }
+        it { expect(subject.first).to be_a Changeset }
       end
 
       context 'with a long ago errored and succeeded change_sync' do

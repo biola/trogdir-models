@@ -14,7 +14,7 @@ class SyncLog
   delegate :changeset, :syncinator, to: :change_sync
 
   def self.find_through_parents(id)
-    id = Moped::BSON::ObjectId(id)
+    id = BSON::ObjectId.from_string(id.to_s) unless id.is_a? BSON::ObjectId
     changeset = Changeset.find_by('change_syncs.sync_logs._id' => id)
     change_sync = changeset.change_syncs.find_by('sync_logs._id' => id)
     change_sync.sync_logs.find(id)
