@@ -37,6 +37,23 @@ class Person
   # Options
   field :enabled, type: Boolean # TODO: figure out if tihs is necessary
 
+  # For sorting
+  index last_name: 1, preferred_name: 1
+
+  # For searching
+  index({uuid: 1}, unique: true)
+  index affiliations: 1
+  index first_name: 1
+  index preferred_name: 1
+  index last_name: 1
+  index display_name: 1
+  index title_name: 1
+  index department_name: 1
+  index residence_name: 1
+  index 'emails.address' => 1
+  index 'ids.identifier' => 1
+  index({'ids.identifier' => 1, 'ids.type' => 1}, unique: true)
+
   validates :uuid, :first_name, :last_name, presence: true
   validates :uuid, uniqueness: true
   validates :gender, inclusion: { in: Person::GENDERS, allow_nil: true }

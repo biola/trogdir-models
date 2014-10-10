@@ -3,6 +3,13 @@ class Changeset
 
   embeds_many :change_syncs
 
+  index created_at: -1
+  index 'change_syncs.syncinator_id' => 1
+  index 'change_syncs.started_at' => 1
+  index 'change_syncs.succeeded_at' => 1
+  index({'change_syncs._id' => 1}, unique: true)
+  index({'change_syncs.sync_logs._id' => 1}, unique: true)
+
   after_create :create_change_syncs
 
   alias :person :trackable_root
