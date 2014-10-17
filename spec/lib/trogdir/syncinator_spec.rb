@@ -59,8 +59,7 @@ describe Syncinator do
   end
 
   describe '#startable_changesets' do
-    let(:retry_after) { 1.hour.ago }
-    subject { syncinator.startable_changesets(retry_after) }
+    subject { syncinator.startable_changesets }
 
     context 'without an assigned change_sync' do
       it { should be_empty }
@@ -103,7 +102,7 @@ describe Syncinator do
       end
 
       context 'with a recently errored change_sync' do
-        before { changeset.change_syncs.last.sync_logs.create! started_at: 2.minute.ago, errored_at: 1.minute.ago }
+        before { changeset.change_syncs.last.sync_logs.create! started_at: 30.seconds.ago, errored_at: 10.seconds.ago }
         it { should be_empty }
       end
 
@@ -112,13 +111,13 @@ describe Syncinator do
         it { expect(subject.first).to be_a Changeset }
       end
 
-      context 'with a long ago errored and recently succeeded change_sync' do
-        let(:errored) { changeset.change_syncs.last.sync_logs.create! started_at: 65.minutes.ago, errored_at: 64.minutes.ago }
-        let(:succeeded) { changeset.change_syncs.last.sync_logs.create! started_at: 2.minute.ago, succeeded_at: 1.minute.ago }
-
-        it 'should have the errored changeset' do
-          expect(subject.length).to eql 1
+      context 'with a long ago errored but recently succeeded change_sync' do
+        before do
+          changeset.change_syncs.last.sync_logs.create! started_at: 65.minutes.ago, errored_at: 64.minutes.ago
+          changeset.change_syncs.last.sync_logs.create! started_at: 2.minute.ago, succeeded_at: 1.minute.ago
         end
+
+        it { should be_empty }
       end
     end
   end
