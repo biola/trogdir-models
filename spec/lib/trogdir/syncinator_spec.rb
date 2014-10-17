@@ -112,12 +112,13 @@ describe Syncinator do
         it { expect(subject.first).to be_a Changeset }
       end
 
-      context 'with a long ago errored and succeeded change_sync' do
-        before do
-          changeset.change_syncs.last.sync_logs.create! started_at: 65.minutes.ago, errored_at: 64.minutes.ago
-          changeset.change_syncs.last.sync_logs.create! started_at: 2.minute.ago, succeeded_at: 1.minute.ago
+      context 'with a long ago errored and recently succeeded change_sync' do
+        let(:errored) { changeset.change_syncs.last.sync_logs.create! started_at: 65.minutes.ago, errored_at: 64.minutes.ago }
+        let(:succeeded) { changeset.change_syncs.last.sync_logs.create! started_at: 2.minute.ago, succeeded_at: 1.minute.ago }
+
+        it 'should have the errored changeset' do
+          expect(subject.length).to eql 1
         end
-        it { should be_empty }
       end
     end
   end
