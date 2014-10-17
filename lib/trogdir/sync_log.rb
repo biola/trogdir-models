@@ -11,6 +11,9 @@ class SyncLog
 
   validates :started_at, presence: true
 
+  before_save :update_change_sync
+  after_save :save_change_sync
+
   delegate :changeset, :syncinator, to: :change_sync
 
   def self.find_through_parents(id)
@@ -18,5 +21,22 @@ class SyncLog
     changeset = Changeset.find_by('change_syncs.sync_logs._id' => id)
     change_sync = changeset.change_syncs.find_by('sync_logs._id' => id)
     change_sync.sync_logs.find(id)
+  end
+
+  private
+
+  def update_change_sync
+    change_sync.run_after = if succeeded_at_changed?
+      nil
+    elsif errored_at_changed?
+      # wait exponentially longer between retries the more it fails
+      errored_at + (change_sync.sync_logs.length**4).minutes
+    elsif started_at_changed?
+      started_at + 1.hour
+    end
+  end
+
+  def save_change_sync
+    change_sync.save! if change_sync.run_after_changed?
   end
 end
