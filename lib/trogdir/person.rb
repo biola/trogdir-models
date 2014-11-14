@@ -63,7 +63,7 @@ class Person
   before_validation :set_uuid, on: :create
 
   def changesets
-    # association_chain is provided by Mongoid::History::Trackable
+    # association_hash is provided by Mongoid::History::Trackable
     # history_tracks would only get changes to the 'person' scope this also gets changes to associated models
     Mongoid::History.tracker_class.where(association_chain: association_hash)
   end
