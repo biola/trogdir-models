@@ -44,12 +44,30 @@ describe Person do
   it { should validate_uniqueness_of :uuid }
   it { should validate_inclusion_of(:gender).to_allow Person::GENDERS }
 
-  it { should respond_to :changesets }
-
   describe '#uuid' do
     let(:person) { build :person }
     before { person.valid? } # trigger generation of uuid
     it { expect(person.uuid).to match /\A[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\Z/ }
+  end
+
+  describe '#changesets' do
+    context 'when person has been changed' do
+      before { person.update(last_name: 'Bad') }
+
+      it 'returns changesets for person' do
+        expect(person.changesets.length).to eql 2 # create and update
+        expect(person.changesets.last.modified).to eql 'last_name' => 'Bad'
+      end
+
+      context 'when an embedded model added' do
+        before { person.emails.create type: 'university', address: 'strong.bad@example.com' }
+
+        it 'returns changesets for person' do
+          expect(person.changesets.length).to eql 3 # create person, update person and create email
+          expect(person.changesets.last.modified).to eql 'type' => :university, 'address' => 'strong.bad@example.com', 'primary' => false
+        end
+      end
+    end
   end
 
   describe '#email' do
