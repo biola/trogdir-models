@@ -23,9 +23,32 @@ class Syncinator
     name
   end
 
+  def changesets
+    Changeset.where('change_syncs.syncinator_id' => id).order_by(created_at: :asc)
+  end
+
   def unfinished_changesets
     Changeset.where(
       :change_syncs.elem_match => {syncinator_id: id, :run_after.ne => nil}
+    ).order_by(created_at: :asc)
+  end
+
+  # have started but haven't errored or succeeded
+  def pending_changesets
+    Changeset.where(
+      :change_syncs.elem_match => {
+        syncinator_id: id, :run_after.ne => nil, :sync_logs.elem_match => {
+          :started_at.ne => nil, errored_at: nil, succeeded_at: nil
+        }
+      }
+    ).order_by(created_at: :asc)
+  end
+
+  def errored_changesets
+    Changeset.where(
+      :change_syncs.elem_match => {
+        syncinator_id: id, :run_after.ne => nil, :'sync_logs.errored_at'.exists => true
+      }
     ).order_by(created_at: :asc)
   end
 
