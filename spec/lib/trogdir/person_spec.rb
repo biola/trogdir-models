@@ -19,6 +19,7 @@ describe Person do
   it { should have_field(:gender).of_type Symbol }
   it { should have_field(:partial_ssn).of_type String }
   it { should have_field(:birth_date).of_type Date }
+  it { should have_field(:mailbox).of_type String }
   it { should have_field(:entitlements).of_type Array }
   it { should have_field(:affiliations).of_type Array }
   it { should have_field(:groups).of_type Array }
@@ -29,6 +30,7 @@ describe Person do
   it { should have_field(:floor).of_type Integer }
   it { should have_field(:wing).of_type String }
   it { should have_field(:majors).of_type Array }
+  it { should have_field(:minors).of_type Array }
   it { should have_field(:privacy).of_type Mongoid::Boolean }
 
   # Employee concerns methods

@@ -9,6 +9,7 @@ module Student
 
     # Academic
     field :majors, type: Array
+    field :minors, type: Array
 
     # FERPA
     field :privacy, type: Boolean

@@ -29,6 +29,9 @@ class Person
   field :partial_ssn, type: String
   field :birth_date, type: Date
 
+  # Mail
+  field :mailbox, type: String
+
   # Groups and permissions
   field :entitlements, type: Array
   field :affiliations, type: Array
