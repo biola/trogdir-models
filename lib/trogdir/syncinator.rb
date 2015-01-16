@@ -2,6 +2,7 @@ require 'api_auth'
 
 class Syncinator
   include Mongoid::Document
+  include Mongoid::Userstamp::User
 
   FIXNUM_MAX = (2**(0.size * 8 -2) -1)
 

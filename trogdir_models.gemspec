@@ -18,6 +18,7 @@ spec = Gem::Specification.new do |s|
   s.add_dependency 'email_validator', '~> 1.4'
   s.add_dependency 'mongoid', '~> 4.0'
   s.add_dependency 'mongoid-history', '~> 0.4'
+  s.add_dependency 'mongoid_userstamp', '~> 0.4'
   s.add_development_dependency 'factory_girl', '~> 4.4'
   s.add_development_dependency 'faker', '~> 1.3'
   s.add_development_dependency 'rspec', '~> 3.1'

@@ -7,6 +7,7 @@ end
 
 # Models
 require 'mongoid'
+require 'mongoid_userstamp'
 autoload :Person, 'trogdir/person'
 autoload :ID, 'trogdir/id'
 autoload :Email, 'trogdir/email'
@@ -29,3 +30,4 @@ autoload :AbsoluteUriValidator, 'trogdir/validators/absolute_uri_validator'
 
 require 'mongoid-history'
 Mongoid::History.tracker_class_name = :changeset
+Mongoid::History.modifier_class_name = 'Syncinator'
