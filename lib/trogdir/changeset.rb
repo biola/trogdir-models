@@ -1,5 +1,8 @@
 class Changeset
   include Mongoid::History::Tracker
+  include Mongoid::Userstamp
+
+  mongoid_userstamp user_model: 'Syncinator'
 
   embeds_many :change_syncs
 
