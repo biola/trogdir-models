@@ -2,7 +2,7 @@ class Photo
   include Mongoid::Document
   include Mongoid::History::Trackable
 
-  TYPES = [:id_card]
+  TYPES = [:id_card, :profile]
 
   embedded_in :person
 
