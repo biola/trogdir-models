@@ -8,10 +8,13 @@ class Changeset
 
   index created_at: -1
   index 'change_syncs.syncinator_id' => 1
-  index 'change_syncs.started_at' => 1
-  index 'change_syncs.succeeded_at' => 1
+  index 'change_syncs.run_after' => 1
+  index 'change_syncs.sync_logs.started_at' => 1
+  index 'change_syncs.sync_logs.errored_at' => 1
+  index 'change_syncs.sync_logs.succeeded_at' => 1
   index({'change_syncs._id' => 1}, unique: true, sparse: true)
   index({'change_syncs.sync_logs._id' => 1}, unique: true, sparse: true)
+  index('change_syncs.syncinator_id' => 1, 'change_syncs.run_after' => 1)
 
   after_create :create_change_syncs
 
