@@ -66,12 +66,19 @@ class Syncinator
   end
 
   def error!(sync_log, message)
-    sync_log.update_attributes errored_at: Time.now, message: message
+    sync_log.errored_at = Time.now
+    sync_log.message = message
+    sync_log.save!
+
     sync_log
   end
 
   def finish!(sync_log, action, message = nil)
-    sync_log.update_attributes succeeded_at: Time.now, action: action, message: message
+    sync_log.succeeded_at = Time.now
+    sync_log.action = action
+    sync_log.message = message
+    sync_log.save!
+
     sync_log
   end
 
