@@ -68,7 +68,11 @@ class Syncinator
   def error!(sync_log, message)
     sync_log.errored_at = Time.now
     sync_log.message = message
-    sync_log.save!
+    # There seems to be a bug in mongoid 4.0.2 that saves two records if you call just
+    # sync_log.save!. Calling save on the ChangeSync seems to be the best work-around for now.
+    # Thanks to Michael for finding the least-stupid workaround.
+    # TODO: do a simple sync_log.save! when this issue gets fixed.
+    sync_log.change_sync.save!
 
     sync_log
   end
