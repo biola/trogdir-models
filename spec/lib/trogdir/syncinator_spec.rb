@@ -148,6 +148,18 @@ describe Syncinator do
       expect(subject.message).to eql message
     end
 
+    context 'when there is more than one syncinators' do
+      let!(:syncinator) { create(:syncinator); create :syncinator }
+
+      before do
+        sync_log.change_sync.changeset.change_syncs << ChangeSync.new(syncinator: Syncinator.first)
+      end
+
+      it "doesn't create create any new sync_logs" do
+        expect(subject.change_sync.reload.sync_logs.length).to eql 1
+      end
+    end
+
     it 'returns a sync_log' do
       expect(subject).to be_a SyncLog
     end
@@ -166,6 +178,18 @@ describe Syncinator do
       expect(subject.succeeded_at).to be_a Time
       expect(subject.action).to eql action
       expect(subject.message).to eql message
+    end
+
+    context 'when there is more than one syncinators' do
+      let!(:syncinator) { create(:syncinator); create :syncinator }
+
+      before do
+        sync_log.change_sync.changeset.change_syncs << ChangeSync.new(syncinator: Syncinator.first)
+      end
+
+      it "doesn't create create any new sync_logs" do
+        expect(subject.change_sync.reload.sync_logs.length).to eql 1
+      end
     end
 
     it 'returns a sync_log' do
