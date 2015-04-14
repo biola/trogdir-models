@@ -1,3 +1,3 @@
 module TrogdirModels
-  VERSION = '0.11.6'
+  VERSION = '0.11.7'
 end
