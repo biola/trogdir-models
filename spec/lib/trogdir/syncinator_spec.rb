@@ -140,28 +140,35 @@ describe Syncinator do
     let!(:changeset) { create(:person).history_tracks.last }
     let(:sync_log) { syncinator.start!(changeset) }
     let(:message) { 'OH NOES!'}
-    subject { syncinator.error!(sync_log, message) }
 
-    it 'updates the sync_log' do
-      expect(subject.errored_at).to be_a Time
-      expect(subject.succeeded_at).to be_nil
-      expect(subject.message).to eql message
-    end
+    context 'once run' do
+      subject { syncinator.error!(sync_log, message) }
 
-    context 'when there is more than one syncinators' do
-      let!(:syncinator) { create(:syncinator); create :syncinator }
-
-      before do
-        sync_log.change_sync.changeset.change_syncs << ChangeSync.new(syncinator: Syncinator.first)
+      it 'updates the sync_log' do
+        expect(subject.errored_at).to be_a Time
+        expect(subject.succeeded_at).to be_nil
+        expect(subject.message).to eql message
       end
 
-      it "doesn't create create any new sync_logs" do
-        expect(subject.change_sync.reload.sync_logs.length).to eql 1
+      context 'when there is more than one syncinators' do
+        let!(:syncinator) { create(:syncinator); create :syncinator }
+
+        before do
+          sync_log.change_sync.changeset.change_syncs << ChangeSync.new(syncinator: Syncinator.first)
+        end
+
+        it "doesn't create create any new sync_logs" do
+          expect(subject.change_sync.reload.sync_logs.length).to eql 1
+        end
+      end
+
+      it 'returns a sync_log' do
+        expect(subject).to be_a SyncLog
       end
     end
 
-    it 'returns a sync_log' do
-      expect(subject).to be_a SyncLog
+    it 'changes change_sync#run_after' do
+      expect { syncinator.error!(sync_log, message) }.to change { sync_log.change_sync.reload.run_after }
     end
   end
 
@@ -171,29 +178,36 @@ describe Syncinator do
     let(:sync_log) { syncinator.start!(changeset) }
     let(:action) { :created }
     let(:message) { 'Finally!'}
-    subject { syncinator.finish!(sync_log, action, message) }
 
-    it 'updates the sync_log' do
-      expect(subject.errored_at).to be_nil
-      expect(subject.succeeded_at).to be_a Time
-      expect(subject.action).to eql action
-      expect(subject.message).to eql message
-    end
+    context "once called" do
+      subject { syncinator.finish!(sync_log, action, message) }
 
-    context 'when there is more than one syncinators' do
-      let!(:syncinator) { create(:syncinator); create :syncinator }
-
-      before do
-        sync_log.change_sync.changeset.change_syncs << ChangeSync.new(syncinator: Syncinator.first)
+      it 'updates the sync_log' do
+        expect(subject.errored_at).to be_nil
+        expect(subject.succeeded_at).to be_a Time
+        expect(subject.action).to eql action
+        expect(subject.message).to eql message
       end
 
-      it "doesn't create create any new sync_logs" do
-        expect(subject.change_sync.reload.sync_logs.length).to eql 1
+      context 'when there is more than one syncinators' do
+        let!(:syncinator) { create(:syncinator); create :syncinator }
+
+        before do
+          sync_log.change_sync.changeset.change_syncs << ChangeSync.new(syncinator: Syncinator.first)
+        end
+
+        it "doesn't create create any new sync_logs" do
+          expect(subject.change_sync.reload.sync_logs.length).to eql 1
+        end
+      end
+
+      it 'returns a sync_log' do
+        expect(subject).to be_a SyncLog
       end
     end
 
-    it 'returns a sync_log' do
-      expect(subject).to be_a SyncLog
+    it 'sets change_sync#run_after to nil' do
+      expect { syncinator.finish!(sync_log, action, message) }.to change { sync_log.change_sync.reload.run_after }.to nil
     end
   end
 end

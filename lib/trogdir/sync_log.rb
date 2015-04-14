@@ -26,14 +26,7 @@ class SyncLog
   private
 
   def update_change_sync
-    change_sync.run_after = if succeeded_at_changed?
-      nil
-    elsif errored_at_changed?
-      # wait exponentially longer between retries the more it fails
-      errored_at + (change_sync.sync_logs.length**4).minutes
-    elsif started_at_changed?
-      started_at + 1.hour
-    end
+    change_sync.update_run_after
   end
 
   def save_change_sync

@@ -66,6 +66,12 @@ class Syncinator
   end
 
   def error!(sync_log, message)
+    # Because we have to save the change_sync instead of the sync_log (see below)
+    # we need to make sure we grab the sync_log through the change_sync, other wise
+    # the save on change_sync doesn't catch the changes to sync_log.
+    change_sync = sync_log.change_sync
+    sync_log = change_sync.sync_logs.find_by(id: sync_log.id)
+
     sync_log.errored_at = Time.now
     sync_log.message = message
     # There seems to be a bug in mongoid 4.0.2 that saves two records if you call just
@@ -78,6 +84,12 @@ class Syncinator
   end
 
   def finish!(sync_log, action, message = nil)
+    # Because we have to save the change_sync instead of the sync_log (see below)
+    # we need to make sure we grab the sync_log through the change_sync, other wise
+    # the save on change_sync doesn't catch the changes to sync_log.
+    change_sync = sync_log.change_sync
+    sync_log = change_sync.sync_logs.find_by(id: sync_log.id)
+
     sync_log.succeeded_at = Time.now
     sync_log.action = action
     sync_log.message = message
