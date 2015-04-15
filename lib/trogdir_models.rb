@@ -7,6 +7,7 @@ end
 
 # Models
 require 'mongoid'
+require 'request_store'
 require 'mongoid_userstamp'
 autoload :Person, 'trogdir/person'
 autoload :ID, 'trogdir/id'
