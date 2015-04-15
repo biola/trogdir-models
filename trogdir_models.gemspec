@@ -23,6 +23,7 @@ spec = Gem::Specification.new do |s|
   # Details here: https://github.com/aq1018/mongoid-history/issues/124
   s.add_runtime_dependency 'mongoid-history', '~> 0.4', '<= 0.4.4'
   s.add_runtime_dependency 'mongoid_userstamp', '~> 0.4'
+  s.add_runtime_dependency 'request_store', '~> 1.1'
   s.add_development_dependency 'factory_girl', '~> 4.4'
   s.add_development_dependency 'faker', '~> 1.3'
   s.add_development_dependency 'rspec', '~> 3.1'
