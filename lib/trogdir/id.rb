@@ -18,9 +18,18 @@ class ID
     end
   end
 
-  track_history track_create: true, track_destroy: true
+  track_history changes_method: :track_type, track_create: true, track_destroy: true
 
   def to_s
     identifier
+  end
+
+  private
+  def track_type
+    if changes.include? 'type'
+      changes
+    else
+      changes.merge("type" => [type, type])
+    end
   end
 end
