@@ -15,5 +15,14 @@ class Photo
   validates :url, :height, :width, presence: true
   validates :url, absolute_uri: true
 
-  track_history track_create: true, track_destroy: true
+  track_history changes_method: :track_type, track_create: true, track_destroy: true
+
+  private
+  def track_type
+    if changes.include? 'type'
+      changes
+    else
+      changes.merge("type" => [type, type])
+    end
+  end
 end
