@@ -20,7 +20,7 @@ class Phone
     if changes.include? 'type'
       changes
     else
-      changes.merge("type" => [type.to_S, type.to_S])
+      changes.merge("type" => [type.to_s, type.to_s])
     end
   end
 end
