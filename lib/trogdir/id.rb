@@ -29,7 +29,7 @@ class ID
     if changes.include? 'type'
       changes
     else
-      changes.merge("type" => [type, type])
+      changes.merge("type" => [type.to_s, type.to_s])
     end
   end
 end
