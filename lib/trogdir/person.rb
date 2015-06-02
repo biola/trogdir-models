@@ -33,8 +33,8 @@ class Person
   field :mailbox, type: String
 
   # Groups and permissions
-  field :entitlements, type: Array
-  field :affiliations, type: Array
+  field :entitlements, type: Array, default: []
+  field :affiliations, type: Array, default: []
   field :groups, type: Array
 
   # Options
