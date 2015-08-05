@@ -8,6 +8,7 @@ class Changeset
 
 
   field :modified_by, type: String
+  field :reason, type: String
   index created_at: -1
   index 'change_syncs.syncinator_id' => 1
   index 'change_syncs.run_after' => 1
