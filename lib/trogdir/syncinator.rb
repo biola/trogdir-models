@@ -12,6 +12,9 @@ class Syncinator
   field :secret_key, type: String
   field :queue_changes, type: Boolean
   field :active, type: Boolean, default: true
+  field :errored_count, type: Integer, default: 0
+  field :pending_count, type: Integer, default: 0
+  field :unfinished_count, type: Integer, default: 0
 
   attr_readonly :slug, :access_id, :secret_key
 
