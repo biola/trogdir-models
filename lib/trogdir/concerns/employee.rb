@@ -7,5 +7,6 @@ module Employee
     field :employee_type, type: Symbol
     field :full_time, type: Boolean
     field :pay_type, type: Symbol
+    field :job_ct, type: Integer
   end
 end

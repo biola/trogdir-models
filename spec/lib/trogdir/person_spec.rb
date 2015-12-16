@@ -39,6 +39,7 @@ describe Person do
   it { should have_field(:employee_type).of_type Symbol }
   it { should have_field(:full_time).of_type Mongoid::Boolean }
   it { should have_field(:pay_type).of_type Symbol }
+  it { should have_field(:job_ct).of_type Integer }
 
   it { should validate_presence_of :uuid }
   it { should validate_presence_of :first_name }

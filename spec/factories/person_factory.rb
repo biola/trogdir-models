@@ -26,6 +26,7 @@ FactoryGirl.define do
       employee_type :'Full-Time'
       full_time true
       pay_type :'02'
+      job_ct 1
     end
   end
 end
