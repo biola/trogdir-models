@@ -55,11 +55,14 @@ describe Person do
 
   describe '#changesets' do
     context 'when person has been changed' do
-      before { person.update(last_name: 'Bad') }
+      before {
+        person.save
+        person.update_attribute(:last_name, 'Bad')
+      }
 
       it 'returns changesets for person' do
         expect(person.changesets.length).to eql 2 # create and update
-        expect(person.changesets.last.modified).to eql 'last_name' => 'Bad'
+        expect(person.changesets.asc(:_id).last.modified).to eql 'last_name' => 'Bad'
       end
 
       context 'when an embedded model added' do
@@ -67,7 +70,7 @@ describe Person do
 
         it 'returns changesets for person' do
           expect(person.changesets.length).to eql 3 # create person, update person and create email
-          expect(person.changesets.last.modified).to eql 'type' => :university, 'address' => 'strong.bad@example.com', 'primary' => false
+          expect(person.changesets.asc(:_id).last.modified).to eql 'type' => :university, 'address' => 'strong.bad@example.com', 'primary' => false
         end
       end
     end
