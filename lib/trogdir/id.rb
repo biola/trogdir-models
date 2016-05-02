@@ -2,7 +2,7 @@ class ID
   include Mongoid::Document
   include Mongoid::History::Trackable
 
-  TYPES = [:biola_id, :netid, :banner, :google_apps]
+  TYPES = [:biola_id, :netid, :banner, :google_apps, :banner_udcid]
   DEFAULT_TYPE = :netid
 
   embedded_in :person
