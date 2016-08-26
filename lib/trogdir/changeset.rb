@@ -15,8 +15,8 @@ class Changeset
   index 'change_syncs.sync_logs.started_at' => 1
   index 'change_syncs.sync_logs.errored_at' => 1
   index 'change_syncs.sync_logs.succeeded_at' => 1
-  index({'change_syncs._id' => 1}, unique: true, sparse: true)
-  index({'change_syncs.sync_logs._id' => 1}, unique: true, sparse: true)
+  index({'change_syncs._id' => 1}, {unique: true, sparse: true})
+  index({'change_syncs.sync_logs._id' => 1}, {unique: true, sparse: true})
   index('change_syncs.syncinator_id' => 1, 'change_syncs.run_after' => 1)
 
   before_save :tag_user

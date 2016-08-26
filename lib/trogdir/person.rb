@@ -55,7 +55,7 @@ class Person
   index residence_name: 1
   index 'emails.address' => 1
   index 'ids.identifier' => 1
-  index({'ids.identifier' => 1, 'ids.type' => 1}, unique: true)
+  index({'ids.identifier' => 1, 'ids.type' => 1}, {unique: true, sparse: true})
 
   validates :uuid, :first_name, :last_name, presence: true
   validates :uuid, uniqueness: true
