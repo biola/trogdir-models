@@ -17,7 +17,7 @@ spec = Gem::Specification.new do |s|
   s.add_runtime_dependency 'api-auth', '~> 1.0'
   s.add_runtime_dependency 'email_validator', '~> 1.4'
   s.add_runtime_dependency 'mongoid', '~> 5.1'
-  s.add_runtime_dependency 'mongoid-history', '~> 0.5'
+  s.add_runtime_dependency 'mongoid-history', '0.5.0'
   s.add_runtime_dependency 'mongoid_userstamp', '~> 0.4'
   s.add_runtime_dependency 'request_store', '~> 1.1'
   s.add_development_dependency 'factory_girl', '~> 4.4'
