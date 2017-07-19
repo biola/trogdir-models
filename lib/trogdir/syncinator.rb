@@ -65,6 +65,9 @@ class Syncinator
   def start!(changeset)
     return false unless change_sync = change_sync_for(changeset)
 
+    # delete old pending sync_logs before creating a new one
+    change_sync.sync_logs.where(succeeded_at: nil, errored_at: nil).delete
+
     change_sync.sync_logs.create! started_at: Time.now
   end
 
