@@ -3,6 +3,10 @@
 
 ### Master (unreleased)
 
+### 0.19.0
+
+* Delete old pending sync_logs before creating new ones
+
 ### 0.18.1
 
 * Adding sparse option to person ids. This means it won't index it as null if the person has no ids.
