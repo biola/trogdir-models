@@ -68,7 +68,7 @@ class Person
   def changesets
     # association_hash is provided by Mongoid::History::Trackable
     # history_tracks would only get changes to the 'person' scope this also gets changes to associated models
-    Mongoid::History.tracker_class.where(association_chain: association_hash)
+    self.class.tracker_class.where(association_chain: association_hash)
   end
 
   def email
