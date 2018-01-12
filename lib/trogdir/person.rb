@@ -6,13 +6,14 @@ class Person
   include Student
   include Employee
 
-  GENDERS = [:male, :female]
+  GENDERS = %i[male female].freeze
 
   embeds_many :ids, class_name: 'ID'
   embeds_many :emails
   embeds_many :photos
   embeds_many :phones
   embeds_many :addresses
+  has_many :accounts, dependent: :destroy
 
   # ID
   field :uuid, type: String
@@ -38,7 +39,7 @@ class Person
   field :groups, type: Array
 
   # Options
-  field :enabled, type: Boolean # TODO: figure out if tihs is necessary
+  field :enabled, type: Boolean # TODO: figure out if this is necessary
 
   # For sorting
   index last_name: 1, preferred_name: 1
@@ -55,20 +56,23 @@ class Person
   index residence_name: 1
   index 'emails.address' => 1
   index 'ids.identifier' => 1
-  index({'ids.identifier' => 1, 'ids.type' => 1}, {unique: true, sparse: true})
+  index({'ids.identifier' => 1, 'ids.type' => 1}, unique: true, sparse: true)
 
   validates :uuid, :first_name, :last_name, presence: true
   validates :uuid, uniqueness: true
   validates :gender, inclusion: { in: Person::GENDERS, allow_nil: true }
 
-  track_history track_create: true
+  track_history on: [:fields],
+                track_create: true
 
   before_validation :set_uuid, on: :create
+  before_destroy :destroy_changesets
 
   def changesets
     # association_hash is provided by Mongoid::History::Trackable
-    # history_tracks would only get changes to the 'person' scope this also gets changes to associated models
-    Mongoid::History.tracker_class.where(association_chain: association_hash)
+    # history_tracks would only get changes to the 'person' scope this also gets
+    #  changes to associated models
+    self.class.tracker_class.where(association_chain: association_hash)
   end
 
   def email
@@ -81,5 +85,9 @@ class Person
 
   def set_uuid
     self.uuid = SecureRandom.uuid
+  end
+
+  def destroy_changesets
+    changesets.destroy_all
   end
 end

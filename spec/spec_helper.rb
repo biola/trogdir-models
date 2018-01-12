@@ -10,6 +10,7 @@ require 'mongoid-rspec'
 require 'factory_girl'
 require 'faker'
 require 'pry'
+require 'rspec/given'
 
 Mongoid.load!('spec/config/mongoid.yml')
 
