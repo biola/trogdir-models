@@ -4,13 +4,7 @@ class Account
   include Mongoid::History::Trackable
   # NOTE: be sure to configure history-tracking for each subclass
 
-  # Returns an array of subclasses (e.g. [GuestAccount, UniversityAccount])
-  TYPES =
-    if Account.descendants.present?
-      Account.descendants.map(&:to_s)
-    else
-      ['GuestAccount', 'UniversityAccount']
-    end
+  TYPES = ['GuestAccount', 'UniversityAccount'].freeze
 
   belongs_to :person, index: true
 
