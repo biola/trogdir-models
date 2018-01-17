@@ -19,13 +19,31 @@ describe UniversityAccount do
 
   describe '#unconfirmed?' do
     context 'confirmed_at is not set' do
-      Given (:university_account) { build :university_account, confirmed_at: nil }
+      Given(:university_account) { build :university_account, confirmed_at: nil }
       Then { university_account.unconfirmed? }
     end
 
     context 'confirmed_at is in the past' do
-      Given (:university_account) { build :university_account, confirmed_at: 1.day.ago }
+      Given(:university_account) { build :university_account, confirmed_at: 1.day.ago }
       Then { university_account.unconfirmed? == false }
+    end
+  end
+
+  describe 'history tracking' do
+    it 'tracks on create' do
+      guest_account = build :guest_account
+      expect(AccountHistoryTracker.count).to eq 0
+      guest_account.save
+      expect(AccountHistoryTracker.count).to eq 1
+    end
+
+    it 'tracks on update' do
+      guest_account = build :guest_account
+      guest_account.save
+      expect(AccountHistoryTracker.count).to eq 1
+      guest_account.first_name = 'Steve'
+      guest_account.save
+      expect(AccountHistoryTracker.count).to eq 2
     end
   end
 end
