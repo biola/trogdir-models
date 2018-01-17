@@ -4,6 +4,14 @@ class Account
   include Mongoid::History::Trackable
   # NOTE: be sure to configure history-tracking for each subclass
 
+  # Returns an array of subclasses (e.g. [GuestAccount, UniversityAccount])
+  TYPES =
+    if Account.descendants.present?
+      Account.descendants.map(&:to_s)
+    else
+      ['GuestAccount', 'UniversityAccount']
+    end
+
   belongs_to :person, index: true
 
   field :modified_by, type: String
@@ -24,6 +32,11 @@ class Account
   # the url that the user needs to be sent do after sign up (based on param)
   field :return_url, type: String # on sign up
 
+  # TODO: decide if this should be called in the subclasses and/or here.
+  track_history on: [:fields],
+                track_create: true,
+                track_update: true,
+                tracker_class_name: :account_history_tracker
   def uuid
     person.try(:uuid)
   end
